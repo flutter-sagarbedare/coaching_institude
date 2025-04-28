@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class QuizResult extends StatelessWidget {
-  const QuizResult({super.key});
+  final int correctAnsCount;
+  const QuizResult({super.key,required this.correctAnsCount});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class QuizResult extends StatelessWidget {
                   const SizedBox(
                     width:30
                   ),
-                  
+                  Text("$correctAnsCount")
               ],
             ),
           ),

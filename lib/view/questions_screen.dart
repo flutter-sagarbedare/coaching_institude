@@ -20,25 +20,30 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  late final dynamic questions;
-  // @override
-  // void initState() {
-  //   getMCQData();
-  //   super.initState();
-  // }
+  dynamic questions;
+  bool ansCheck = false;
+  int selectedIndex = -1;
+  int correctAnsCount = 0;
 
-  // void getMCQData() async {
-  //   //  DocumentSnapshot docs =await FirebaseFirestore.instance.collection('MCQ').doc('zkBlnljsOl4Utc5oIZ2q').get() ;
+  @override
+  void initState() {
+    getMCQData();
+    log('questions = $questions');
+    super.initState();
+  }
 
-  //   // mcqs.add(docs.data() as Map<String,dynamic>);
-  //   await Provider.of<QuizProvider>(
-  //     context,
-  //     listen: false,
-  //   ).fetchQuestions(widget.subjectId, widget.topicId);
+  void getMCQData() async {
+    //  DocumentSnapshot docs =await FirebaseFirestore.instance.collection('MCQ').doc('zkBlnljsOl4Utc5oIZ2q').get() ;
 
-  //   questions =
-  //       await Provider.of<QuizProvider>(context, listen: false).questions;
-  // }
+    // mcqs.add(docs.data() as Map<String,dynamic>);
+    await Provider.of<QuizProvider>(
+      context,
+      listen: false,
+    ).fetchQuestions(widget.subjectId, widget.topicId);
+
+    questions =
+        await Provider.of<QuizProvider>(context, listen: false).questions;
+  }
 
   int queIndex = 1;
   late int questionCount = 0;
@@ -72,9 +77,13 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                         // );
                         // setState(() {
                         // queIndex++;
-                          
+
                         // });
+                        queIndex++;
                         _nextQuestion();
+                        Navigator.of(context).pop();
+                        ansCheck =false;
+                        selectedIndex = -1;
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(Colors.green),
@@ -155,32 +164,46 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       );
     }
   }
-   int _currentQuestionIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    final quizProvider = Provider.of<QuizProvider>(context, listen: false)
-        .fetchQuestions(widget.subjectId, widget.topicId);
-         questionCount = Provider.of<QuizProvider>(context, listen: false).questions.length;
-    
-  }
+  int _currentQuestionIndex = 0;
 
   void _nextQuestion() {
     final quizProvider = Provider.of<QuizProvider>(context, listen: false);
-   
 
     if (_currentQuestionIndex < quizProvider.questions.length - 1) {
       setState(() {
         _currentQuestionIndex++;
       });
     } else {
+      
       // Optionally handle quiz end
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You have completed the quiz!')),
+      Navigator.of(context).pop();
+       Navigator.of(context).push(
+        MaterialPageRoute(builder: (context){
+          log('in navigator');
+            return QuizResult(correctAnsCount: correctAnsCount);
+        }));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('You have completed the quiz!')
+      )
       );
+     
+
     }
   }
+
+  Color buttonColor(int index) {
+  if (selectedIndex == -1) {
+    return Color.fromRGBO(248, 145, 87, 1); // default color
+  } else if (index == selectedIndex) {
+    return ansCheck ? Color.fromRGBO(26, 181, 134, 1) : Colors.red;
+  } else {
+    return Color.fromRGBO(248, 145, 87, 1); // default color
+ // other buttons stay normal
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -199,130 +222,154 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           final currentQuestion = quizProvider.questions[_currentQuestionIndex];
 
           return Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
               children: [
-                Text(
-                  "Math Quiz",
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromRGBO(131, 76, 52, 1),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Math Quiz",
+                      style: TextStyle(
+                        fontSize: 27,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromRGBO(131, 76, 52, 1),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Row(children: [
-              Text('${_currentQuestionIndex} / ${questionCount}')]),
-            SizedBox(
-              height: 500,
-              width: 500,
-              child: Consumer<QuizProvider>(
-                builder: (context, quizProvider, _) {
-                  if (quizProvider.isLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
+                Row(
+                  children: [
+                    Text('${_currentQuestionIndex} / ${questionCount}'),
+                  ],
+                ),
+                SizedBox(
+                  height: 500,
+                  width: 500,
+                  child: Consumer<QuizProvider>(
+                    builder: (context, quizProvider, _) {
+                      if (quizProvider.isLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
 
-                  if (quizProvider.questions.isEmpty) {
-                    return Center(child: Text('No questions available'));
-                  }
-                  final questions = quizProvider.questions;
+                      if (quizProvider.questions.isEmpty) {
+                        return Center(child: Text('No questions available'));
+                      }
 
-                  final question = questions[queIndex];
-
-                  return ListView(
-                    children: [
-                      Column(
+                      return ListView(
+                        shrinkWrap: true,
                         children: [
-                          Wrap(
+                          Column(
                             children: [
-                              Text(
-                                "Q${_currentQuestionIndex + 1}: ${currentQuestion['question']}",
-                                style: TextStyle(
-                                  fontSize: 27,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromRGBO(131, 76, 52, 1),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    "Q${_currentQuestionIndex + 1}: ${currentQuestion['question']}",
+                                    style: TextStyle(
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color.fromRGBO(131, 76, 52, 1),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              SizedBox(
+                                height: 2000,
+                                child: ListView.separated(
+                                  itemCount:
+                                      (currentQuestion['options']
+                                              as List<dynamic>)
+                                          .length,
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(height: 50);
+                                  },
+                                  itemBuilder: (context, index) {
+                                    final String option =
+                                        (currentQuestion['options']
+                                            as List<dynamic>)[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedIndex =
+                                              index; // set which option clicked
+                                          log('in gesture detector');
+                                          if (option ==
+                                              currentQuestion['answer']) {
+                                            ansCheck = true;
+                                            correctAnsCount++;
+
+                                            validateSelectedAnswer(true);
+                                          } else {
+                                            ansCheck = false;
+
+                                            validateSelectedAnswer(false);
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 80,
+                                        width: 360,
+                                        decoration: BoxDecoration(
+                                          color: buttonColor(index),
+                                          borderRadius: BorderRadius.circular(
+                                            15,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(width: 20),
+                                            Text(
+                                              option,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(height: 20),
+
+                                            Spacer(),
+                                            Icon(Icons.arrow_forward_ios),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            height: 500,
-                            child: ListView.separated(
-                              itemCount: (currentQuestion['options'] as List<dynamic>).length,
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(height: 50);
-                              },
-                              itemBuilder: (context, index) {
-                                 final option = (currentQuestion['options'] as List<dynamic>)[index];
-                                return GestureDetector(
-                                  onTap:(){
-                                   if( question['options'][index] == question['answer']){
-                                      validateSelectedAnswer(true);
-                                      queIndex++;
-                                   }else{
-                                      validateSelectedAnswer(false);
-                                    
-                                   }
-                                  },
-                                  child: Container(
-                                    height: 80,
-                                    width: 360,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(255, 237, 217, 1),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(width: 20),
-                                        SizedBox(height: 20),
-
-                                        Spacer(),
-                                        Icon(Icons.arrow_forward_ios),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
                         ],
-                      ),
-                    ],
-                  );
-                  // return ListView.builder(
-                  //   itemCount: queIndex,
-                  //   itemBuilder: (context, index) {
-                  //     final q = quizProvider.questions[index];
-                  //     return Card(
-                  //       margin: EdgeInsets.all(8),
-                  //       child: ListTile(
-                  //         title: Text(q['question']),
-                  //         subtitle: Column(
-                  //           crossAxisAlignment: CrossAxisAlignment.start,
-                  //           children: (q['options'] as List<String>).map((opt) {
-                  //             return Text("- $opt");
-                  //           }).toList(),
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // );
-                },
-              ),
+                      );
+                      // return ListView.builder(
+                      //   itemCount: queIndex,
+                      //   itemBuilder: (context, index) {
+                      //     final q = quizProvider.questions[index];
+                      //     return Card(
+                      //       margin: EdgeInsets.all(8),
+                      //       child: ListTile(
+                      //         title: Text(q['question']),
+                      //         subtitle: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: (q['options'] as List<String>).map((opt) {
+                      //             return Text("- $opt");
+                      //           }).toList(),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ));
-      
-    
+          );
         },
       ),
     );
@@ -402,7 +449,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   //                                     queIndex++;
   //                                  }else{
   //                                     validateSelectedAnswer(false);
-                                    
+
   //                                  }
   //                                 },
   //                                 child: Container(
