@@ -32,6 +32,7 @@ class _CourseDataScreenState extends State<CourseDataScreen> {
     return Scaffold(
       appBar:AppBar(
         title: const Text("Flutter Online"),
+        backgroundColor: Colors.deepPurple,
       ),
       body: 
       // Consumer<YtVideoViewModel>(

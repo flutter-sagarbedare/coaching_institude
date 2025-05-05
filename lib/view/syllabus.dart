@@ -1,3 +1,4 @@
+import 'package:coaching_institude/view/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,6 +43,16 @@ class Syllabus extends StatelessWidget {
                     await launch(url,forceWebView: true,enableJavaScript: true);
                   
                   }
+                  //  Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute (
+                  //     builder:
+                  //         (context) =>  WebViewScreen(
+                  //           url:
+                  //               'https://www.nielit.gov.in/sites/default/files/Syllabus_Core_Java_and_Advanced_Java%20.pdf',
+                  //         ),
+                  //   ),
+                  // );
             
                   },
                    child: const Text('View Syllabus'),

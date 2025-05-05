@@ -16,7 +16,8 @@ class LacturePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lacture Page'),
-        backgroundColor: Colors.blue,
+              backgroundColor: Colors.deepPurple,
+
         centerTitle: true,
       ),
       body: Padding(

@@ -30,7 +30,7 @@ class YtApiServices{
       // log("the data from yt api is $jsonData");
 
       List playListItems = jsonData['items'];
-      log("playlist items :${playListItems[0]}");
+      // log("playlist items :${playListItems[0]}");
 
       // playListItems
 
@@ -51,7 +51,7 @@ class YtApiServices{
 
 
         allVideos.add(video);
-        log("All Videos : $allVideos");
+        // log("All Videos : $allVideos");
       }
       log("length = ${allVideos.length}");
 

@@ -37,17 +37,13 @@ class _YoutubeHomePageState extends State<YoutubeHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text("Lecture"),
-        backgroundColor: Colors.blue,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: ()async{            
-
-            //  videos =await YtApiServices().getAllVideosFromPlaylist();
-            //  log("Videos : ${videos[0].channelName}");
-            } )
-        ],
+        title:Text("Lectures",
+        style:TextStyle(
+          color: Colors.white
+        )),
+        backgroundColor: Colors.deepPurple,
+       
+        
       ),
       body:
       Consumer(
