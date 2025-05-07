@@ -250,7 +250,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     CircleAvatar(
                       radius: 28,
                       backgroundColor: Colors.white,
-                      child: Icon(Icons.note, size: 30, color: Colors.deepPurple),
+                      child: Icon(Icons.school, size: 30, color: Colors.deepPurple),
                     ),
                     SizedBox(height: 10),
                     Text(
