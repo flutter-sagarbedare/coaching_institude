@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   if (isLoggedIn && localPassword != null && localPassword == firebasePassword) {
     log('User is already logged in and password matches.');
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MyHomePage(title: "Sagar Coachind",))); // or your HomePage route
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MyHomePage())); // or your HomePage route
   } else {
     log('Login required or password mismatch.');
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> VerifyScreen())); // or your VerifyPage route

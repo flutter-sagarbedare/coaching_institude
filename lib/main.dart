@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coaching_institude/view/LecturePage.dart';
+import 'package:coaching_institude/view/about.dart';
 import 'package:coaching_institude/view/confirm_user.dart';
 import 'package:coaching_institude/view/profile_screen.dart';
 import 'package:coaching_institude/view/questions_screen.dart';
@@ -18,9 +19,10 @@ import 'package:flutter/material.dart';
 import 'package:coaching_institude/view/lecture.dart';
 import 'package:coaching_institude/view/notes.dart';
 import 'package:coaching_institude/view/syllabus.dart';
-import 'package:coaching_institude/view/test.dart';
+import 'package:coaching_institude/view/mocktest.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:flutter/foundation.dart';
@@ -51,6 +53,8 @@ void main()async {
 
   );
 }
+
+
 
 class QuizProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _subjects = [];
@@ -165,6 +169,8 @@ class QuizProvider extends ChangeNotifier {
   }
 }
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -184,9 +190,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key});
 
-  final String title;
+  
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -244,7 +250,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     CircleAvatar(
                       radius: 28,
                       backgroundColor: Colors.white,
-                      child: Icon(Icons.school, size: 30, color: Colors.deepPurple),
+                      child: Icon(Icons.note, size: 30, color: Colors.deepPurple),
                     ),
                     SizedBox(height: 10),
                     Text(
@@ -269,20 +275,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: const Text('Home'),
                 onTap: () => Navigator.pop(context),
               ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.deepPurple),
-                title: const Text('Settings'),
-                onTap: () {},
-              ),
+              
               ListTile(
                 leading: const Icon(Icons.info_outline, color: Colors.deepPurple),
                 title: const Text('About'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutScreen()));
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.logout, color: Colors.deepPurple),
                 title: const Text('Logout'),
-                onTap: () {},
+                onTap: ()async {
+                  SharedPreferences prefs =await  SharedPreferences.getInstance();
+
+                  prefs.clear();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context)=> SplashScreen()
+                  ));
+                },
               ),
             ],
           ),

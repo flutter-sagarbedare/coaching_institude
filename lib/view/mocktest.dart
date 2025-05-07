@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coaching_institude/view/mocktest_topics_screen.dart';
 import 'package:coaching_institude/view/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,7 +28,7 @@ class _TestPageState extends State<TestPage> {
   Future<void> getMockTests() async {
     QuerySnapshot docs = await FirebaseFirestore.instance.collection('MockTest').get();
     _mockTests = docs.docs.map((doc){
-      return {'id':doc.id,'url':doc['url']};
+      return {'id':doc.id};
     }).toList();
     setState((){
       _isLoading= false;
@@ -52,10 +53,10 @@ class _TestPageState extends State<TestPage> {
             onTap: ()async {     
               log('${_mockTests[index]}');
 
-                               Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => WebViewScreen(url: topic['url'],))
-                      );
-                        
+                      //          Navigator.of(context).push(
+                      //   MaterialPageRoute(builder: (context) => WebViewScreen(url: topic['url'],))
+                      // );
+                       Navigator.push(context,MaterialPageRoute(builder: (context)=>MoskTestTopicScreen(topicId:topic['id']))); 
                     
                   
                   //  final url='https://docs.google.com/forms/d/e/1FAIpQLSdt4b4dL-pM0RkF1yS2DPEkrS2X27W_R-wNZFdH5O8nDVGUQg/viewform?usp=header';

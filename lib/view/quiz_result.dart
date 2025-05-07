@@ -35,7 +35,7 @@ perc = (widget.correctAnsCount / widget.questionCount * 100);
           TextButton(
             onPressed: () {
               //  Navigator.of(context).pop(true);
-               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MyHomePage(title: "title")));
+               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MyHomePage()));
             },
             child: Text('Yes'),
           ),

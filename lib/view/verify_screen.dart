@@ -225,7 +225,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   if (enteredPassword == firebasePassword) {
     await prefs.setBool('isLoggedIn', true);
     await prefs.setString('password', enteredPassword);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage(title: 'safar')));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
   } else {
      ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

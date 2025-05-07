@@ -86,7 +86,7 @@ class _NotesPageState extends State<NotesPage> {
                       radius: 30,
                       backgroundColor: Colors.deepPurple.shade100,
                       child: Icon(
-                        Icons.circle,
+                       Icons.subject,
                         color: Colors.deepPurple,
                         size: 28,
                       ),
