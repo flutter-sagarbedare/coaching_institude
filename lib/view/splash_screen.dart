@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // prefs.setBool('isLoggedIn',false);
     // prefs.setString('password','sagar');
 
-    DocumentSnapshot docs = await FirebaseFirestore.instance.collection('password').doc('pasword').get();
+    DocumentSnapshot docs = await FirebaseFirestore.instance.collection('password').doc('password').get();
     Map<String,dynamic> data = docs.data() as Map<String,dynamic>;
       String firebasePassword = data['password'];
   log('Firebase Password: $firebasePassword');
@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(child: Image.asset('assets/troffy.jpg')),
+      body: Center(child: Image.asset('assets/logo.jpg')),
     );
   }
 }

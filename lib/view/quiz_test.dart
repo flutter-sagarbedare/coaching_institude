@@ -19,7 +19,7 @@ class _QuizTestScreenState extends State<QuizTestScreen> {
   bool _isLoading = true;
   @override
   void initState(){
-    getMCQData();
+     Future.microtask(() => getMCQData());
     super.initState();
   }
 
@@ -34,6 +34,7 @@ class _QuizTestScreenState extends State<QuizTestScreen> {
    _isLoading = false;
    });
    log("$_subjects");
+   
 
   }
 

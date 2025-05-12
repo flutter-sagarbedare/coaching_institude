@@ -217,7 +217,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   // Fetch current password from Firebase
   DocumentSnapshot docs = await FirebaseFirestore.instance
       .collection('password')
-      .doc('pasword')
+      .doc('password')
       .get();
 
   String firebasePassword = (docs.data() as Map<String, dynamic>)['password'];

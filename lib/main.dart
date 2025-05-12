@@ -36,13 +36,20 @@ void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await  Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyD62cDi05NnC1SQcELtK2ENPU3ELIRddIo",
-      authDomain: "coaching-institude.firebaseapp.com",
-      projectId: "coaching-institude",
-      storageBucket: "coaching-institude.firebasestorage.app",
-      messagingSenderId: "119883482337",
-      appId: "1:119883482337:web:1dfda9aee95ffcb0f6e3a0",
-      measurementId: "G-SHV6BN4RTZ",
+  //     apiKey: "AIzaSyD62cDi05NnC1SQcELtK2ENPU3ELIRddIo",
+  // authDomain: "coaching-institude.firebaseapp.com",
+  // projectId: "coaching-institude",
+  // storageBucket: "coaching-institude.firebasestorage.app",
+  // messagingSenderId: "119883482337",
+  // appId: "1:119883482337:web:1dfda9aee95ffcb0f6e3a0",
+  // measurementId: "G-SHV6BN4RTZ"
+    apiKey: "AIzaSyBrh9oxnUURuBZRijPErp2XbDkDK2ZMsRk",
+  authDomain: "omkar-coaching.firebaseapp.com",
+  projectId: "omkar-coaching",
+  storageBucket: "omkar-coaching.firebasestorage.app",
+  messagingSenderId: "56385621825",
+  appId: "1:56385621825:web:d6bdde61bfe128ed031bc0",
+  measurementId: "G-TM86RL75Y3"
     ),
   );
   runApp(
@@ -95,7 +102,7 @@ class QuizProvider extends ChangeNotifier {
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
-          .collection('Subjects')
+          .collection('MCQ')
           .get();
       _subjects = querySnapshot.docs.map((doc) {
         return {'id': doc.id, 'name': doc['name']};
@@ -107,6 +114,7 @@ class QuizProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
     log('subjects got fetched');
+  
   }
 
   /// Fetch topics for a given subject
@@ -116,7 +124,7 @@ class QuizProvider extends ChangeNotifier {
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
-          .collection('Subjects')
+          .collection('MCQ')
           .doc(subjectId)
           .collection('topics')
           .get();
@@ -139,7 +147,7 @@ class QuizProvider extends ChangeNotifier {
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
-          .collection('Subjects')
+          .collection('MCQ')
           .doc(subjectId)
           .collection('topics')
           .doc(topicId)
@@ -229,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: CircleAvatar(
               radius: 25,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage('assets/troffy.jpg'),
+              backgroundImage: AssetImage('assets/logo.jpg'),
             ),
           ),
         ],
@@ -260,13 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 18,
                       ),
                     ),
-                    Text(
-                      'mycoaching@email.com',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                    ),
+                   
                   ],
                 ),
               ),

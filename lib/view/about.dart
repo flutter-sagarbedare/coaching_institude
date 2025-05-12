@@ -38,19 +38,44 @@ class _AboutScreenState extends State<AboutScreen> {
         title: Text("About Us"),
       ),
       body:_isLoading ? Center(child:CircularProgressIndicator()) :      
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset('assets/logo.jpg'),
-          const SizedBox(height: 50,),
-          Text(data['name']),
-          const SizedBox(height: 10,),
-          Text(data['Description']),
-          const SizedBox(height: 10,),
-          Text(data['contact']),
-          
-        ],
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset('assets/logo.jpg'),
+            const SizedBox(height: 30,),
+            Text(data['name'],
+            style:TextStyle(
+              fontSize:30,
+              fontWeight:FontWeight.w500
+            )
+            ),
+            const SizedBox(height: 50,),
+            Text(data['Description'],
+              style:TextStyle(
+              fontSize:20,
+              fontWeight:FontWeight.w400
+            )
+            ),
+            const SizedBox(height: 10,),
+            Text("+91 ${data['contact']}",
+              style:TextStyle(
+              fontSize:20,
+              fontWeight:FontWeight.w400
+            )
+            ),
+            const SizedBox(height: 10,),
+            Text("${data['email']}",
+              style:TextStyle(
+              fontSize:20,
+              fontWeight:FontWeight.w400
+            )
+            ),
+            
+          ],
+        ),
       )
     );
   }

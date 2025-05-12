@@ -36,10 +36,16 @@ dependencies:
 
 
   flutter_staggered_animations: ^1.1.0
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.jpg"
 
 
 flutter:
